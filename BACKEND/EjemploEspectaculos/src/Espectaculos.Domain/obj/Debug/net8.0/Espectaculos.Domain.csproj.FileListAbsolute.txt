@@ -1,0 +1,12 @@
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Domain\bin\Debug\net8.0\Espectaculos.Domain.deps.json
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Domain\bin\Debug\net8.0\Espectaculos.Domain.dll
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Domain\bin\Debug\net8.0\Espectaculos.Domain.pdb
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Domain\obj\Debug\net8.0\Espectaculos.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Domain\obj\Debug\net8.0\Espectaculos.Domain.AssemblyInfoInputs.cache
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Domain\obj\Debug\net8.0\Espectaculos.Domain.AssemblyInfo.cs
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Domain\obj\Debug\net8.0\Espectaculos.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Domain\obj\Debug\net8.0\Espectaculos.Domain.sourcelink.json
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Domain\obj\Debug\net8.0\Espectaculos.Domain.dll
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Domain\obj\Debug\net8.0\refint\Espectaculos.Domain.dll
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Domain\obj\Debug\net8.0\Espectaculos.Domain.pdb
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Domain\obj\Debug\net8.0\ref\Espectaculos.Domain.dll

@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "DF1nQzqC+sY=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Fabricio\\Documents\\GitHub\\.net-proyecto\\BACKEND\\EjemploEspectaculos\\src\\Espectaculos.Application\\Espectaculos.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Fabricio\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
+    "C:\\Users\\Fabricio\\.nuget\\packages\\mediatr\\12.2.0\\mediatr.12.2.0.nupkg.sha512",
+    "C:\\Users\\Fabricio\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\Fabricio\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\Fabricio\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

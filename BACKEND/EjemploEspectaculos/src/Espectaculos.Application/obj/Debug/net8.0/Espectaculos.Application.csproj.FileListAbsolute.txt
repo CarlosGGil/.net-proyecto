@@ -1,0 +1,16 @@
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\bin\Debug\net8.0\Espectaculos.Application.deps.json
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\bin\Debug\net8.0\Espectaculos.Application.dll
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\bin\Debug\net8.0\Espectaculos.Application.pdb
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\bin\Debug\net8.0\Espectaculos.Domain.dll
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\bin\Debug\net8.0\Espectaculos.Domain.pdb
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\obj\Debug\net8.0\Espectaculos.Application.csproj.AssemblyReference.cache
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\obj\Debug\net8.0\Espectaculos.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\obj\Debug\net8.0\Espectaculos.Application.AssemblyInfoInputs.cache
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\obj\Debug\net8.0\Espectaculos.Application.AssemblyInfo.cs
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\obj\Debug\net8.0\Espectaculos.Application.csproj.CoreCompileInputs.cache
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\obj\Debug\net8.0\Espectaculos.Application.sourcelink.json
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\obj\Debug\net8.0\Espectac.9AD6B290.Up2Date
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\obj\Debug\net8.0\Espectaculos.Application.dll
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\obj\Debug\net8.0\refint\Espectaculos.Application.dll
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\obj\Debug\net8.0\Espectaculos.Application.pdb
+C:\Users\Fabricio\Documents\GitHub\.net-proyecto\BACKEND\src\Espectaculos.Application\obj\Debug\net8.0\ref\Espectaculos.Application.dll
