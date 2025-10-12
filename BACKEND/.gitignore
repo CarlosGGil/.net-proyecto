@@ -1,0 +1,59 @@
+# Build outputs
+bin/
+obj/
+out/
+
+# Rider / JetBrains IDE
+.idea/
+*.sln.iml
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# ASP.NET scaffolding
+.scaffolding
+
+# Entity Framework
+*.dbmdl
+Migrations/
+
+# Blazor / WASM
+wwwroot/css/open-iconic/
+wwwroot/.vs/
+wwwroot/dist/
+*.client.bundle.js
+*.map
+
+# MAUI
+*.apk
+*.aab
+*.ap_
+*.ipa
+*.xcuserstate
+*.xcworkspace
+*.xcuserdatad
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+
+# VS Code / Rider
+.vscode/
+*.code-workspace
+
+# Docker
+**/docker-compose.override.yml
+**/docker-compose.override.*.yml
+
+# Secrets / env
+.env
+*.secrets.json
+secrets.json
