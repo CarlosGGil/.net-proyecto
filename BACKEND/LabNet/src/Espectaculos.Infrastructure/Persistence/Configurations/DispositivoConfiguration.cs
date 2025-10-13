@@ -32,6 +32,16 @@ namespace Espectaculos.Infrastructure.Persistence.Configurations
             builder.HasOne(d => d.Usuario)
                 .WithMany(u => u.Dispositivos)
                 .HasForeignKey(d => d.UsuarioId);
+            
+            builder.HasMany(e => e.Sincronizaciones)
+                .WithOne(c => c.Dispositivo)
+                .HasForeignKey(e => e.SincronizacionId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            builder.HasMany(e => e.Notificaciones)
+                .WithOne(c => c.Dispositivo)
+                .HasForeignKey(e => e.NotificacionId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
