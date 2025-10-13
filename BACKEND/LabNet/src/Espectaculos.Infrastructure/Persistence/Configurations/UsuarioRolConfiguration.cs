@@ -13,7 +13,7 @@ public class UsuarioRolConfiguration : IEntityTypeConfiguration<UsuarioRol>
         builder.HasKey(ur => new { ur.UsuarioId, ur.RolId });
 
         builder.HasOne(ur => ur.Usuario)
-            .WithMany(u => u.roles)
+            .WithMany(u => u.UsuarioRoles)
             .HasForeignKey(ur => ur.UsuarioId);
 
         builder.HasOne(ur => ur.Rol)

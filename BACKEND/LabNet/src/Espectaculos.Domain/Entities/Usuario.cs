@@ -10,11 +10,12 @@ public class Usuario
     public string email { get; set; }
     public UsuarioEstado estado { get; set; }
     public Credencial credencial { get; set; }
-    public ICollection<UsuarioRol> roles { get; set; }
+    public ICollection<UsuarioRol> UsuarioRoles { get; set; } = new List<UsuarioRol>();
 
-    private ICollection<Dispositivo> dispositivos = new List<Dispositivo>();
-    private ICollection<Canje> canjes = new List<Canje>();
-    
-    
-    
+    public ICollection<Dispositivo>  Dispositivos { get; set; } = new List<Dispositivo>();
+    public ICollection<BeneficioUsuario> Beneficios { get; set; } = new List<BeneficioUsuario>();
+    public ICollection<Canje> Canjes { get; set; }= new List<Canje>();
+
+
+
 }
