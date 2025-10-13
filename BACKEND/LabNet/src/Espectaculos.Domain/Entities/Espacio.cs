@@ -10,6 +10,7 @@ public class Espacio
     public EspacioTipo Tipo { get; set; }
     public Modo Modo { get; set; }
 
+    public ICollection<EventoAcceso> EventoAccesos { get; set; } = new List<EventoAcceso>();
     public ICollection<EspacioReglaDeAcceso> Reglas { get; set; } = new List<EspacioReglaDeAcceso>();
     public ICollection<BeneficioEspacio> Beneficios { get; set; } = new List<BeneficioEspacio>();
 }

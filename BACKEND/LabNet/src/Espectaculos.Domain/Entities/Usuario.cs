@@ -1,6 +1,5 @@
 ﻿using Espectaculos.Domain.Enums;
-
-namespace Espectaculos.Domain.Entities;
+using Espectaculos.Domain.Entities;
 
 public class Usuario
 {

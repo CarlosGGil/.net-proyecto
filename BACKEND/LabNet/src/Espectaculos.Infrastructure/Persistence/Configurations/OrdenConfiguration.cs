@@ -8,7 +8,7 @@ public class OrdenConfiguration : IEntityTypeConfiguration<Orden>
 {
     public void Configure(EntityTypeBuilder<Orden> builder)
     {
-        builder.ToTable("ordenes");
+        builder.ToTable("orden");
         builder.HasKey(o => o.Id);
         builder.Property(o => o.EmailComprador).IsRequired().HasMaxLength(256);
         builder.Property(o => o.Total).HasPrecision(18, 2).IsRequired();

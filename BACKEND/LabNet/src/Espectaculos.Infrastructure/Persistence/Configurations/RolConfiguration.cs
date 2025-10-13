@@ -1,27 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Espectaculos.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Espectaculos.Domain.Entities;
 
-public class RolConfiguration : IEntityTypeConfiguration<Rol>
+namespace Espectaculos.Infrastructure.Persistence.Configurations
 {
-    public void Configure(EntityTypeBuilder<Rol> builder)
+    public class RolConfiguration : IEntityTypeConfiguration<Rol>
     {
-        builder.ToTable("Roles");
-        builder.HasKey(r => r.RolId);
+        public void Configure(EntityTypeBuilder<Rol> builder)
+        {
+            builder.ToTable("rol");
 
-        builder.Property(r => r.Tipo)
-            .IsRequired()
-            .HasMaxLength(100);
+            builder.HasKey(r => r.RolId);
 
-        builder.Property(r => r.Prioridad)
-            .IsRequired();
+            builder.Property(r => r.Tipo)
+                .IsRequired()
+                .HasMaxLength(50);
 
-        builder.Property(r => r.FechaAsignado)
-            .IsRequired();
-        builder.HasMany(r => r.UsuarioRoles)
-            .WithOne(ur => ur.Rol)
-            .HasForeignKey(ur => ur.RolId);
+            builder.Property(r => r.Prioridad)
+                .IsRequired();
 
-        builder.HasIndex(r => r.Tipo);
+            builder.Property(r => r.FechaAsignado)
+                .IsRequired();
+
+            // Relación M:N con Usuario (a través de UsuarioRol)
+            builder.HasMany(r => r.UsuarioRoles)
+                .WithOne(ur => ur.Rol)
+                .HasForeignKey(ur => ur.RolId);
+        }
     }
 }

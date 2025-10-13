@@ -8,11 +8,8 @@ public class Notificacion
     public string Tipo { get; set; } = default!;
     public string Titulo { get; set; } = default!;
     public string Cuerpo { get; set; } = default!;
-    public string? DestinoType { get; set; }
-    public string? DestinoId { get; set; }
     public DateTime? ProgramadaPara { get; set; }
-    public string? CreadoPor { get; set; }
     public string? Estado { get; set; }
     public List<string>? Canales { get; set; }
-    public Dictionary<string, object>? Metadatos { get; set; }
+    public string? Metadatos { get; set; }
 }

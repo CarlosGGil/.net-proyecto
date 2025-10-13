@@ -8,7 +8,7 @@ public class OrdenItemConfiguration : IEntityTypeConfiguration<OrdenItem>
 {
     public void Configure(EntityTypeBuilder<OrdenItem> builder)
     {
-        builder.ToTable("orden_items");
+        builder.ToTable("orden_item");
         builder.HasKey(oi => oi.Id);
         builder.Property(oi => oi.EntradaTipo).IsRequired().HasMaxLength(100);
         builder.Property(oi => oi.Cantidad).IsRequired();
