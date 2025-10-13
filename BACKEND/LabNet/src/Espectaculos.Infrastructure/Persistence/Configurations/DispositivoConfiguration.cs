@@ -8,7 +8,7 @@ namespace Espectaculos.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Dispositivo> builder)
         {
-            builder.ToTable("Dispositivos");
+            builder.ToTable("dispositivo");
 
             builder.HasKey(d => d.DispositivoId);
 

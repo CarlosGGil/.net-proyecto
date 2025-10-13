@@ -9,7 +9,6 @@ public class BeneficioConfiguration : IEntityTypeConfiguration<Beneficio>
     public void Configure(EntityTypeBuilder<Beneficio> builder)
     {
         builder.ToTable("beneficio");
-        builder.ToTable("espacio");
         builder.HasKey(e => e.BeneficioId);
         builder.Property(e => e.Tipo).HasConversion<string>().IsRequired();
         builder.Property(e => e.Nombre).IsRequired().HasMaxLength(100);

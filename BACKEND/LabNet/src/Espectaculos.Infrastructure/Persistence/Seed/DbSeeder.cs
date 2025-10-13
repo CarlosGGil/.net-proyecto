@@ -34,7 +34,7 @@ public class DbSeeder
         // Borrar en orden de FK (snake_case)
         _log.LogInformation("Borrando datos de dominio (orden_items → ordenes → entradas → eventos)...");
         await _db.Database.ExecuteSqlRawAsync(
-            @"TRUNCATE TABLE orden_items, ordenes, entradas, eventos RESTART IDENTITY CASCADE;",
+            @"TRUNCATE TABLE beneficio, beneficio_espacio, beneficio_usuario, canje, credencial, dispositivo, entrada, espacio, espacio_regla_de_acceso, evento_acceso, evento, notificacion, orden, orden_item, regla_de_acceso, rol, sincronizacion, usuario, usuario_rol  RESTART IDENTITY CASCADE;",
             ct);
 
         // Cargar dataset completo

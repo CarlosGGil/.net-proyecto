@@ -8,7 +8,7 @@ namespace Espectaculos.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Usuario> builder)
         {
-            builder.ToTable("Usuarios");
+            builder.ToTable("usuario");
 
             builder.HasKey(u => u.UsuarioId);
 

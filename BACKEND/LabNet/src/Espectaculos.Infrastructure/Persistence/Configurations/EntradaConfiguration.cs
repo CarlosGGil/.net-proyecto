@@ -8,7 +8,7 @@ public class EntradaConfiguration : IEntityTypeConfiguration<Entrada>
 {
     public void Configure(EntityTypeBuilder<Entrada> builder)
     {
-        builder.ToTable("entradas");
+        builder.ToTable("entrada");
         builder.HasKey(e => e.Id);
         builder.Property(e => e.Tipo).IsRequired().HasMaxLength(100);
         builder.Property(e => e.Precio).HasPrecision(18, 2).IsRequired();

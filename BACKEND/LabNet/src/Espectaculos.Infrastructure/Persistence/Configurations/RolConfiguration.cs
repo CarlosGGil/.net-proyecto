@@ -8,7 +8,7 @@ namespace Espectaculos.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Rol> builder)
         {
-            builder.ToTable("Roles");
+            builder.ToTable("rol");
 
             builder.HasKey(r => r.RolId);
 

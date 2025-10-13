@@ -8,7 +8,7 @@ namespace Espectaculos.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<UsuarioRol> builder)
         {
-            builder.ToTable("UsuarioRoles");
+            builder.ToTable("usuario_rol");
 
             builder.HasKey(ur => new { ur.UsuarioId, ur.RolId }); // PK compuesta
 

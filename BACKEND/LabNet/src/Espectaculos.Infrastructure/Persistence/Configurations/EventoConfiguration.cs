@@ -8,7 +8,7 @@ public class EventoConfiguration : IEntityTypeConfiguration<Evento>
 {
     public void Configure(EntityTypeBuilder<Evento> builder)
     {
-        builder.ToTable("eventos");
+        builder.ToTable("evento");
         builder.HasKey(e => e.Id);
         builder.Property(e => e.Titulo).IsRequired().HasMaxLength(200);
         builder.Property(e => e.Descripcion).IsRequired().HasMaxLength(2000);
