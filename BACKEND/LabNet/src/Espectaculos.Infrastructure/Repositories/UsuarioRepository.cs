@@ -43,5 +43,8 @@ namespace Espectaculos.Infrastructure.Repositories
                                .ToListAsync(ct);
             return (items, total);
         }
+        
+        public async Task AddAsync(Usuario usuario, CancellationToken ct = default)
+            => await _db.Usuario.AddAsync(usuario, ct);
     }
 }

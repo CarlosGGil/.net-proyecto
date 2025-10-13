@@ -22,6 +22,9 @@ public static class EventosEndpoints
     {
         var group = endpoints.MapGroup("eventos");
 
+        group.MapGet("/test", () => { return Results.Ok("test"); }).WithName("Pruebita")
+            .WithOpenApi();
+
         group.MapGet("",
                 async (
                     IEventoRepository repo,

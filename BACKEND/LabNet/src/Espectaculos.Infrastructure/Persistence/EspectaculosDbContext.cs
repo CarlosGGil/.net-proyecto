@@ -20,6 +20,10 @@ public class EspectaculosDbContext : DbContext
     public DbSet<Entrada> Entradas => Set<Entrada>();
     public DbSet<Orden> Ordenes => Set<Orden>();
     public DbSet<OrdenItem> OrdenItems => Set<OrdenItem>();
+    
+    
+    
+    public DbSet<Usuario> Usuario => Set<Usuario>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

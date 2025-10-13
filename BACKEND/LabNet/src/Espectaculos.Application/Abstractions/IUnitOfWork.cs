@@ -7,6 +7,7 @@ public interface IUnitOfWork
     IEventoRepository Eventos { get; }
     IEntradaRepository Entradas { get; }
     IOrdenRepository Ordenes { get; }
+    IUsuarioRepository Usuarios { get; }
 
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
