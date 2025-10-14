@@ -4,6 +4,7 @@ using Espectaculos.Application.Abstractions.Repositories;
 using Espectaculos.Application.Commands.CrearOrden;
 using Espectaculos.Application.Commands.CreateEvento;
 using Espectaculos.Application.Commands.PublicarEvento;
+using Espectaculos.Application.Commands.CrearUsuario;
 using Espectaculos.Infrastructure.Persistence;
 using Espectaculos.Infrastructure.Persistence.Interceptors;
 using Espectaculos.Infrastructure.Persistence.Seed;
@@ -127,6 +128,9 @@ if (isDev)
 builder.Services.AddScoped<IValidator<CreateEventoCommand>, CreateEventoValidator>();
 builder.Services.AddScoped<IValidator<PublicarEventoCommand>, PublicarEventoValidator>();
 builder.Services.AddScoped<IValidator<CrearOrdenCommand>, CrearOrdenValidator>();
+builder.Services.AddScoped<IValidator<CrearUsuarioCommand>, CrearUsuarioValidator>();
+builder.Services.AddScoped<CrearUsuarioHandler>();
+
 
 // Repos + UoW
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -166,6 +170,8 @@ var api = app.MapGroup("/api");
 
 // Mapea tus endpoints SOBRE el grupo (usar rutas relativas en las extensiones)
 api.MapEventosEndpoints();
+api.MapUsuariosEndpoints();
+
 api.MapOrdenesEndpoints();
 
 // Health root para readiness checks fuera de /api

@@ -1,97 +1,64 @@
-using System;
-using System.Linq;
 using Espectaculos.Application.Abstractions;
-using Espectaculos.Application.Abstractions.Repositories;
-using Espectaculos.Application.Commands.CreateEvento;
-using Espectaculos.Application.DTOs;
-using Espectaculos.Application.Queries.GetEntradasPorEvento;
-using Espectaculos.Application.Queries.GetEventoById;
-using Espectaculos.Application.Queries.ListEventos;
+using Espectaculos.Application.Commands.CrearUsuario;
+using Espectaculos.Application.Common.Exceptions;
 using FluentValidation;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OpenApi;
-using Microsoft.Extensions.Configuration;
-using Espectaculos.WebApi.Utils;
+using Espectaculos.WebApi.Security;
+using Espectaculos.WebApi.Endpoints.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Espectaculos.WebApi.Endpoints;
 
-public static class EventosEndpoints
+public static class UsuariosEndpoints
 {
-    public static IEndpointRouteBuilder MapEventosEndpoints(this IEndpointRouteBuilder endpoints)
+    public static IEndpointRouteBuilder MapUsuariosEndpoints(this IEndpointRouteBuilder endpoints)
     {
-        var group = endpoints.MapGroup("eventos");
+        var group = endpoints.MapGroup("usuarios");
 
-        group.MapGet("",
-                async (
-                    IEventoRepository repo,
-                    HttpContext ctx,
-                    string? q = null,
-                    string? sort = null,
-                    string? dir = null,
-                    int page = 1,
-                    int pageSize = 10,
-                    bool onlyPublished = false,
-                    bool? disponible = null,
-                    bool? onlyDisponibles = null) =>
-                {
-                    var handler = new ListEventosHandler(repo);
-                    var effectiveOnlyDisponibles = (disponible ?? onlyDisponibles) ?? false;
-                    var result = await handler.HandleAsync(new ListEventosQuery
-                    {
-                        Q = q,
-                        Sort = sort,
-                        Dir = dir,
-                        Page = page,
-                        PageSize = pageSize,
-                        OnlyPublished = onlyPublished,
-                        OnlyDisponibles = effectiveOnlyDisponibles
-                    }, ctx.RequestAborted);
-
-                    return Results.Ok(result); 
-                })
-            .WithName("ListEventos")
-            .WithOpenApi(operation =>
+        group.MapGet("/test", () => { return Results.Ok("test"); }).WithName("Pruebitusuario")
+            .WithOpenApi();
+        
+        group.MapPost("/crear", async (
+                [FromBody] CrearUsuarioCommand command,
+                CrearUsuarioHandler handler,
+                IValidationTokenService tokenService,
+                ILoggerFactory loggerFactory,
+                CancellationToken ct) =>
             {
-                var onlyDispParam = operation.Parameters.FirstOrDefault(p => string.Equals(p.Name, "onlyDisponibles", StringComparison.OrdinalIgnoreCase));
-                if (onlyDispParam is not null)
+                var logger = loggerFactory.CreateLogger("Usuarios");
+                try
                 {
-                    onlyDispParam.Deprecated = true;
-                    var baseDesc = onlyDispParam.Description ?? string.Empty;
-                    onlyDispParam.Description = string.IsNullOrWhiteSpace(baseDesc)
-                        ? "Obsoleto. Use 'disponible'. Compatibilidad: true filtra disponibles; false no filtra."
-                        : baseDesc + " Obsoleto. Use 'disponible'.";
+                    var result = await handler.HandleAsync(command, ct);
+                    var token = tokenService.Generate(result.UsuarioId, null);
+                    return Results.Created($"/api/usuarios/{result.UsuarioId}", new { id = result.UsuarioId, token });
                 }
-
-                var dispParam = operation.Parameters.FirstOrDefault(p => string.Equals(p.Name, "disponible", StringComparison.OrdinalIgnoreCase));
-                if (dispParam is not null)
+                catch (FluentValidation.ValidationException vex)
                 {
-                    var baseDesc = dispParam.Description ?? string.Empty;
-                    dispParam.Description = string.IsNullOrWhiteSpace(baseDesc)
-                        ? "Parámetro recomendado. true: solo eventos disponibles; false o ausencia: todos los eventos."
-                        : baseDesc + " (Parámetro recomendado)";
+                    logger.LogWarning(vex, "Validación fallida al crear usuario");
+                    var errors = vex.Errors
+                        .GroupBy(e => e.PropertyName)
+                        .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray());
+                    return Results.BadRequest(new { errors });
                 }
+                catch (NotFoundException nf)
+                {
+                    logger.LogInformation(nf, "Recurso no encontrado al crear Usuario");
+                    return Results.Problem(statusCode: 404, type: "https://httpstatuses.com/404", title: "No encontrado", detail: nf.Message);
+                }
+                catch (ConflictException cx)
+                {
+                    logger.LogWarning(cx, "Conflicto de negocio al crear usuario");
+                    return Results.Problem(statusCode: 409, type: "https://httpstatuses.com/409", title: "Conflicto", detail: cx.Message);
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "Error inesperado al crear usuario");
+                    return Results.Problem(statusCode: 500, title: "Error interno del servidor");
+                }
+            })
+            .WithName("CrearUsuario")
+            .WithOpenApi();
 
-                return operation;
-            });
-
-        group.MapGet("/{id:guid}", async (Guid id, IUnitOfWork uow) =>
-        {
-            var handler = new GetEventoByIdHandler(uow);
-            var dto = await handler.HandleAsync(new GetEventoByIdQuery(id));
-            return dto is null ? Results.NotFound() : Results.Ok(dto);
-        })
-        .WithName("GetEventoById")
-        .WithOpenApi();
-
-        group.MapGet("/{id:guid}/entradas", async (Guid id, IUnitOfWork uow) =>
-        {
-            var handler = new GetEntradasPorEventoHandler(uow);
-            var list = await handler.HandleAsync(new GetEntradasPorEventoQuery(id));
-            return Results.Ok(list);
-        })
-        .WithName("GetEntradasPorEvento")
-        .WithOpenApi();
+        
 
 #if DEMO_ENABLE_ADMIN
         group.MapPost("", async (CreateEventoCommand command, IUnitOfWork uow, IValidator<CreateEventoCommand> validator) =>
