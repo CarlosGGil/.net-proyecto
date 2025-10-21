@@ -6,10 +6,14 @@ using Espectaculos.Application.Commands.CrearOrden;
 using Espectaculos.Application.Commands.CreateEvento;
 using Espectaculos.Application.Commands.PublicarEvento;
 using Espectaculos.Application.Commands.CrearUsuario;
+<<<<<<< Updated upstream
 using Espectaculos.Application.Usuarios.Commands.CreateUsuario;
 using Espectaculos.Infrastructure;
 using Espectaculos.Application.Commands.CreateUpdateBeneficio;
 using Espectaculos.Application.Commands.RedeemBeneficio;
+=======
+using Espectaculos.Infrastructure;
+>>>>>>> Stashed changes
 using Espectaculos.Infrastructure.Persistence;
 using Espectaculos.Infrastructure.Persistence.Interceptors;
 using Espectaculos.Infrastructure.Persistence.Seed;
@@ -24,13 +28,13 @@ using Microsoft.EntityFrameworkCore;
                     using Serilog;
 using Microsoft.AspNetCore.StaticFiles;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
+using Serilog.AspNetCore;
 using Espectaculos.WebApi.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ---- Logging (Serilog)
-builder.AddSerilogLogging();
-
+// Registrar handlers directamente (usamos handler inyectados en endpoints)
+builder.Services.AddScoped<Espectaculos.Application.Commands.RedeemBeneficio.RedeemBeneficioHandler>();
 // ---- Configuración
 var config = builder.Configuration;
 
@@ -44,6 +48,16 @@ builder.Configuration
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables("APP__") // quita el prefijo "APP__" si existe
     .AddEnvironmentVariables();       // sin prefijo (toma el resto)
+
+// Configure Serilog (reads from configuration)
+builder.AddSerilogLogging();
+
+// Ensure the Serilog ILogger instance (Log.Logger) is available in DI so
+// Serilog.Extensions.Hosting.DiagnosticContext can be constructed during host validation.
+builder.Services.AddSingleton<Serilog.ILogger>(Serilog.Log.Logger);
+
+// Serilog is configured via builder.AddSerilogLogging(); the Host integration
+// registers the required services (ILogger, DiagnosticContext, etc.).
 
 // Log de diagnóstico en Development (no muestra el secreto)
 if (builder.Environment.IsDevelopment())
@@ -136,6 +150,7 @@ if (isDev)
     });
 }
 
+<<<<<<< Updated upstream
 // Validators (Application)
 builder.Services.AddScoped<IValidator<CreateEventoCommand>, CreateEventoValidator>();
 builder.Services.AddScoped<IValidator<PublicarEventoCommand>, PublicarEventoValidator>();
@@ -156,6 +171,15 @@ builder.Services.AddScoped<IValidator<RedeemBeneficioCommand>, RedeemBeneficioVa
 
 // Unit of Work + repositorios (registrados desde Infrastructure)
 // Nota: AddInfrastructure registra IUnitOfWork y todos los repos necesarios.
+=======
+// Validators and handlers are registered inside Application project or discovered by DI; skip explicit registration here to avoid type mismatches.
+
+
+// Repos, UoW and Infrastructure registrations
+// Centralizar el wiring de infra para que EF Tools (design-time) pueda construir los servicios
+builder.Services.AddInfrastructure(connectionString);
+
+>>>>>>> Stashed changes
 // Seeder
 builder.Services.AddScoped<DbSeeder>();
 builder.Services.AddRouting();
@@ -172,7 +196,10 @@ app.UseDefaultFiles();
 app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = provider });
 
 // ---------- 2) Logging, CORS, Swagger ----------
-app.UseSerilogRequestLogging();
+// NOTE: Serilog request-logging middleware temporarily disabled to avoid
+// design-time/service-validation issues with DiagnosticContext during startup.
+// Re-enable (app.UseSerilogRequestLogging()) after wiring Serilog DI correctly.
+// if you want request logs enable it here.
 if (isDev) app.UseCors("DevCors");
 
 app.UseSwagger();

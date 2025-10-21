@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 using Espectaculos.Application.Commands.CreateUpdateBeneficio;
 using Espectaculos.Application.Commands.RedeemBeneficio;
 using Espectaculos.Application.Queries.ListBeneficios;
@@ -6,11 +7,16 @@ using Espectaculos.Application.Abstractions;
 using Espectaculos.Application.Abstractions.Repositories;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+=======
+using Espectaculos.Application.Commands.RedeemBeneficio;
+using MediatR;
+>>>>>>> Stashed changes
 
 namespace Espectaculos.WebApi.Endpoints;
 
 public static class BeneficiosEndpoints
 {
+<<<<<<< Updated upstream
     public static IEndpointRouteBuilder MapBeneficiosEndpoints(this IEndpointRouteBuilder endpoints)
     {
         var group = endpoints.MapGroup("beneficios");
@@ -126,4 +132,19 @@ public static class BeneficiosEndpoints
 
         return endpoints;
     }
+=======
+    public static void MapBeneficiosEndpoints(this IEndpointRouteBuilder group)
+    {
+        var g = group.MapGroup("/beneficios");
+
+        g.MapPost("/{id:guid}/redeem", async (Guid id, RedeemRequest req, IMediator mediator, CancellationToken ct) =>
+        {
+            var cmd = new RedeemBeneficioCommand(id, req.UsuarioId, req.VerificacionBiometrica, req.Firma);
+            var ok = await mediator.Send(cmd, ct);
+            return ok ? Results.NoContent() : Results.BadRequest();
+        });
+    }
+
+    public record RedeemRequest(Guid UsuarioId, bool? VerificacionBiometrica, string? Firma);
+>>>>>>> Stashed changes
 }

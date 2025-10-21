@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 using Espectaculos.Application.Abstractions;
 using Espectaculos.Domain.Entities;
 using Espectaculos.Domain.Enums;
@@ -77,5 +78,53 @@ namespace Espectaculos.Application.Commands.RedeemBeneficio;
             // en una excepción de negocio para que la capa WebApi la transforme en una respuesta adecuada.
             throw new InvalidOperationException("Error al registrar el canje: posible violación de integridad referencial o conflicto en la base de datos.", ex);
         }
+=======
+using MediatR;
+using Espectaculos.Application.Abstractions.Repositories;
+using Espectaculos.Domain.Entities;
+
+namespace Espectaculos.Application.Commands.RedeemBeneficio;
+
+public class RedeemBeneficioHandler : IRequestHandler<RedeemBeneficioCommand, bool>
+{
+    private readonly IBeneficioRepository _repo;
+
+    public RedeemBeneficioHandler(IBeneficioRepository repo) => _repo = repo;
+
+    public async Task<bool> Handle(RedeemBeneficioCommand request, CancellationToken cancellationToken)
+    {
+        var ahora = DateTime.UtcNow;
+
+        var beneficio = await _repo.GetByIdAsync(request.BeneficioId, cancellationToken);
+        if (beneficio == null) return false;
+
+        // Validar vigencia
+        if (beneficio.VigenciaInicio.HasValue && beneficio.VigenciaInicio > ahora) return false;
+        if (beneficio.VigenciaFin.HasValue && beneficio.VigenciaFin < ahora) return false;
+
+        // Contar canjes del usuario
+        var ya = await _repo.GetRedemptionsCountByUserAsync(request.BeneficioId, request.UsuarioId, cancellationToken);
+        if (beneficio.CupoPorUsuario.HasValue && ya >= beneficio.CupoPorUsuario.Value) return false;
+
+        // Intento atómico de consumir cupo global
+        var consumido = await _repo.TryConsumeGlobalCupoAsync(request.BeneficioId, cancellationToken);
+        if (!consumido) return false;
+
+        // Registrar canje
+        var canje = new Canje
+        {
+            CanjeId = Guid.NewGuid(),
+            BeneficioId = request.BeneficioId,
+            UsuarioId = request.UsuarioId,
+            Fecha = DateTime.UtcNow,
+            Estado = Espectaculos.Domain.Enums.EstadoCanje.Confirmado,
+            VerificacionBiometrica = request.VerificacionBiometrica,
+            Firma = request.Firma
+        };
+
+        await _repo.AddCanjeAsync(canje, cancellationToken);
+
+        return true;
+>>>>>>> Stashed changes
     }
 }

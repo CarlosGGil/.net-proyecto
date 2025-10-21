@@ -24,6 +24,14 @@ public class EspectaculosDbContext : DbContext
     
     
     public DbSet<Usuario> Usuario => Set<Usuario>();
+<<<<<<< Updated upstream
+=======
+
+    // Beneficios and Canjes (gestión de beneficios)
+    public DbSet<Beneficio> Beneficios => Set<Beneficio>();
+    public DbSet<Canje> Canjes => Set<Canje>();
+
+>>>>>>> Stashed changes
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(EspectaculosDbContext).Assembly);

@@ -58,9 +58,10 @@ public static class UsuariosEndpoints
                 var logger = loggerFactory.CreateLogger("Usuarios");
                 try
                 {
-                    var result = await handler.HandleAsync(command, ct);
-                    var token = tokenService.Generate(result.UsuarioId, null);
-                    return Results.Created($"/api/usuarios/{result.UsuarioId}", new { id = result.UsuarioId, token });
+                    // Handler returns the created UsuarioId (Guid)
+                    var usuarioId = await handler.HandleAsync(command, ct);
+                    var token = tokenService.Generate(usuarioId, null);
+                    return Results.Created($"/api/usuarios/{usuarioId}", new { id = usuarioId, token });
                 }
                 catch (FluentValidation.ValidationException vex)
                 {
