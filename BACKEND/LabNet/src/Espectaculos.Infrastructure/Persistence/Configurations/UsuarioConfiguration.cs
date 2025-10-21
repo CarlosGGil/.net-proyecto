@@ -14,6 +14,7 @@ namespace Espectaculos.Infrastructure.Persistence.Configurations
             builder.Property(u => u.Nombre).IsRequired().HasMaxLength(100);
             builder.Property(u => u.Apellido).IsRequired().HasMaxLength(100);
             builder.Property(u => u.Email).IsRequired().HasMaxLength(150);
+            builder.Property(u => u.PasswordHash).IsRequired().HasMaxLength(150);
             
             builder.HasMany(e => e.Canjes)
                 .WithOne(c => c.Usuario)
@@ -33,10 +34,6 @@ namespace Espectaculos.Infrastructure.Persistence.Configurations
             builder.HasMany(e => e.UsuarioRoles)
                 .WithOne(b => b.Usuario)
                 .HasForeignKey(b => b.RolId)
-                .OnDelete(DeleteBehavior.Restrict);
-            
-            builder.HasOne(e => e.Credencial)
-                .WithOne()
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

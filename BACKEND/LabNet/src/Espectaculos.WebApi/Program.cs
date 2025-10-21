@@ -1,3 +1,4 @@
+using System.Reflection;
 using Espectaculos.Application;
 using Espectaculos.Application.Abstractions;
 using Espectaculos.Application.Abstractions.Repositories;
@@ -5,6 +6,7 @@ using Espectaculos.Application.Commands.CrearOrden;
 using Espectaculos.Application.Commands.CreateEvento;
 using Espectaculos.Application.Commands.PublicarEvento;
 using Espectaculos.Application.Commands.CrearUsuario;
+using Espectaculos.Application.Usuarios.Commands.CreateUsuario;
 using Espectaculos.Infrastructure.Persistence;
 using Espectaculos.Infrastructure.Persistence.Interceptors;
 using Espectaculos.Infrastructure.Persistence.Seed;
@@ -128,8 +130,14 @@ if (isDev)
 builder.Services.AddScoped<IValidator<CreateEventoCommand>, CreateEventoValidator>();
 builder.Services.AddScoped<IValidator<PublicarEventoCommand>, PublicarEventoValidator>();
 builder.Services.AddScoped<IValidator<CrearOrdenCommand>, CrearOrdenValidator>();
-builder.Services.AddScoped<IValidator<CrearUsuarioCommand>, CrearUsuarioValidator>();
+//builder.Services.AddScoped<IValidator<CrearUsuarioCommand>, CrearUsuarioValidator>();
 builder.Services.AddScoped<CrearUsuarioHandler>();
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssemblies(
+        typeof(CreateUsuarioCommand).Assembly,  // Tu capa Application, donde están los handlers
+        Assembly.GetExecutingAssembly()          // La capa WebApi
+    )
+);
 
 
 // Repos + UoW
@@ -138,7 +146,6 @@ builder.Services.AddScoped<IEventoRepository, EventoRepository>();
 builder.Services.AddScoped<IEntradaRepository, EntradaRepository>();
 builder.Services.AddScoped<IOrdenRepository, OrdenRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-
 // Seeder
 builder.Services.AddScoped<DbSeeder>();
 builder.Services.AddRouting();
@@ -172,7 +179,9 @@ var api = app.MapGroup("/api");
 api.MapEventosEndpoints();
 api.MapUsuariosEndpoints();
 
+
 api.MapOrdenesEndpoints();
+
 
 // Health root para readiness checks fuera de /api
 app.MapHealthChecks("/health");

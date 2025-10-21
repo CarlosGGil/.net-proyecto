@@ -5,12 +5,12 @@ public class Usuario
 {
     public Guid UsuarioId { get; set; }
     public string Documento { get; set; }
+    
+    public string PasswordHash { get; set; }
     public string Nombre { get; set; }
     public string Apellido { get; set; }
     public string Email { get; set; }
     public UsuarioEstado Estado { get; set; }
-    public Guid CredencialId { get; set; }
-    public Credencial Credencial { get; set; }
     public ICollection<UsuarioRol> UsuarioRoles { get; set; } = new List<UsuarioRol>();
 
     public ICollection<Dispositivo>  Dispositivos { get; set; } = new List<Dispositivo>();

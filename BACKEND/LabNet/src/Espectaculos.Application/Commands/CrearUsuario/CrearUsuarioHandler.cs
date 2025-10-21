@@ -9,10 +9,9 @@ public class CrearUsuarioHandler
     private readonly IUnitOfWork _uow;
     private readonly IValidator<CrearUsuarioCommand> _validator;
 
-    public CrearUsuarioHandler(IUnitOfWork uow, IValidator<CrearUsuarioCommand> validator)
+    public CrearUsuarioHandler(IUnitOfWork uow)
     {
         _uow = uow;
-        _validator = validator;
     }
     
     public async Task<Guid> HandleAsync(CrearUsuarioCommand command, CancellationToken ct = default)

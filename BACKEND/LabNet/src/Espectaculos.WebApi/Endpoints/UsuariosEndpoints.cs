@@ -1,9 +1,14 @@
 using Espectaculos.Application.Abstractions;
 using Espectaculos.Application.Commands.CrearUsuario;
 using Espectaculos.Application.Common.Exceptions;
+using Espectaculos.Application.Usuarios.Commands.CreateUsuario;
+using Espectaculos.Application.Usuarios.Commands.DeleteUsuario;
+using Espectaculos.Application.Usuarios.Commands.UpdateUsuario;
+using Espectaculos.Application.Usuarios.Queries.ListarUsuarios;
 using FluentValidation;
 using Espectaculos.WebApi.Security;
 using Espectaculos.WebApi.Endpoints.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Espectaculos.WebApi.Endpoints;
@@ -16,7 +21,33 @@ public static class UsuariosEndpoints
 
         group.MapGet("/test", () => { return Results.Ok("test"); }).WithName("Pruebitusuario")
             .WithOpenApi();
+
+        group.MapGet("/", async ([FromServices] IMediator mediator) =>
+        {
+            var query = new ListarUsuariosQuery();
+            var usuarios = await mediator.Send(query);
+
+            return Results.Ok(usuarios);
+        }).WithName("ListarUsuarios").WithOpenApi();
         
+        
+        group.MapDelete("/", async ([FromBody] DeleteUsuarioCommand command, [FromServices]IMediator mediator) =>
+        {
+            await mediator.Send(command);
+            return Results.NoContent();
+        });
+        
+        group.MapPost("/", async ([FromBody] CreateUsuarioCommand command, [FromServices]IMediator mediator) =>
+        {
+            await mediator.Send(command);
+            return Results.NoContent();
+        });
+        
+        
+
+        
+        
+        /**
         group.MapPost("/crear", async (
                 [FromBody] CrearUsuarioCommand command,
                 CrearUsuarioHandler handler,
@@ -57,7 +88,7 @@ public static class UsuariosEndpoints
             })
             .WithName("CrearUsuario")
             .WithOpenApi();
-
+**/
         
 
 #if DEMO_ENABLE_ADMIN

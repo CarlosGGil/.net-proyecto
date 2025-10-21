@@ -14,5 +14,13 @@ namespace Espectaculos.Application.Abstractions.Repositories
         Task<Usuario?> GetWithDispositivosAsync(Guid usuarioId, CancellationToken ct = default);
         Task<(IReadOnlyList<Usuario> Items, int Total)> SearchAsync(string? term, int page = 1, int pageSize = 20, CancellationToken ct = default);
         Task AddAsync(Usuario usuario, CancellationToken ct = default);
+        
+
+        Task<Usuario?> GetByIdAsync(Guid id, CancellationToken ct = default);
+
+        Task UpdateAsync(Usuario usuario, CancellationToken ct = default);
+
+        Task DeleteAsync(Guid id, CancellationToken ct = default);
+        Task SaveChangesAsync(CancellationToken ct = default);
     }
 }

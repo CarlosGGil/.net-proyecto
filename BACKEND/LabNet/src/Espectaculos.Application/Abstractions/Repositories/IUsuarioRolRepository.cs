@@ -14,5 +14,8 @@ namespace Espectaculos.Application.Abstractions.Repositories
         Task<bool> RemoveAsync(Guid usuarioId, Guid rolId, CancellationToken ct = default);
         Task<IReadOnlyList<Rol>> GetRolesForUserAsync(Guid usuarioId, CancellationToken ct = default);
         Task<IReadOnlyList<Usuario>> GetUsersForRoleAsync(Guid rolId, CancellationToken ct = default);
+
+        
+        
     }
 }

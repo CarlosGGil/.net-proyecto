@@ -24,7 +24,6 @@ public class EspectaculosDbContext : DbContext
     
     
     public DbSet<Usuario> Usuario => Set<Usuario>();
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(EspectaculosDbContext).Assembly);
