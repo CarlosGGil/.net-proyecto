@@ -1,1 +1,0 @@
-C:\Users\alan\source\repos\AppNetCredenciales\AppNetCredenciales\AppNetCredenciales.csproj;x64
