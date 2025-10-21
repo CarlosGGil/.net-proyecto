@@ -7,6 +7,9 @@ using Espectaculos.Application.Commands.CreateEvento;
 using Espectaculos.Application.Commands.PublicarEvento;
 using Espectaculos.Application.Commands.CrearUsuario;
 using Espectaculos.Application.Usuarios.Commands.CreateUsuario;
+using Espectaculos.Infrastructure;
+using Espectaculos.Application.Commands.CreateUpdateBeneficio;
+using Espectaculos.Application.Commands.RedeemBeneficio;
 using Espectaculos.Infrastructure.Persistence;
 using Espectaculos.Infrastructure.Persistence.Interceptors;
 using Espectaculos.Infrastructure.Persistence.Seed;
@@ -16,6 +19,7 @@ using Espectaculos.WebApi.Health;
 using Espectaculos.WebApi.Options;
 using Espectaculos.WebApi.SerilogConfig;
 using FluentValidation;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
                     using Serilog;
 using Microsoft.AspNetCore.StaticFiles;
@@ -65,6 +69,15 @@ builder.Services.AddSwaggerGen(o =>
     });
 });
 
+// JSON global options: permitir enums como cadenas y nombres de propiedad case-insensitive
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(opts =>
+{
+    // Convertir enums a/desde string (ej: "Comedor") — y aceptar nombres case-insensitive
+    opts.SerializerOptions.Converters.Add(new Espectaculos.WebApi.JsonConverters.CaseInsensitiveEnumConverterFactory());
+    // Aceptar nombres de propiedad indiferentes a mayúsculas/minúsculas (p.ej. 'tipo' -> 'Tipo')
+    opts.SerializerOptions.PropertyNameCaseInsensitive = true;
+});
+
 // Options: ValidationTokens (fail-fast)
 var validationSection = builder.Configuration.GetSection("ValidationTokens");
 builder.Services
@@ -96,12 +109,9 @@ builder.Services
 
 builder.Services.AddSingleton<IValidationTokenService, HmacValidationTokenService>();
 
-// EF Core + Npgsql (simple y robusto)
+// EF Core + Npgsql (simple y robusto) + infraestructura
 builder.Services.AddSingleton<AuditableEntitySaveChangesInterceptor>();
-builder.Services.AddDbContext<EspectaculosDbContext>(options =>
-{
-    options.UseNpgsql(connectionString);
-});
+builder.Services.AddInfrastructure(connectionString);
 
 // Health checks
 builder.Services.AddHealthChecks();
@@ -139,13 +149,13 @@ builder.Services.AddMediatR(cfg =>
     )
 );
 
+// Validators para beneficios/canje
+builder.Services.AddScoped<IValidator<CreateUpdateBeneficioCommand>, CreateUpdateBeneficioValidator>();
+builder.Services.AddScoped<IValidator<RedeemBeneficioCommand>, RedeemBeneficioValidator>();
 
-// Repos + UoW
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IEventoRepository, EventoRepository>();
-builder.Services.AddScoped<IEntradaRepository, EntradaRepository>();
-builder.Services.AddScoped<IOrdenRepository, OrdenRepository>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+
+// Unit of Work + repositorios (registrados desde Infrastructure)
+// Nota: AddInfrastructure registra IUnitOfWork y todos los repos necesarios.
 // Seeder
 builder.Services.AddScoped<DbSeeder>();
 builder.Services.AddRouting();
@@ -178,6 +188,7 @@ var api = app.MapGroup("/api");
 // Mapea tus endpoints SOBRE el grupo (usar rutas relativas en las extensiones)
 api.MapEventosEndpoints();
 api.MapUsuariosEndpoints();
+api.MapBeneficiosEndpoints();
 
 
 api.MapOrdenesEndpoints();

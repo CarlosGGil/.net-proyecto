@@ -23,5 +23,13 @@ namespace Espectaculos.Infrastructure.Repositories
 
         public async Task<int> CountByUsuarioOnRangeAsync(Guid usuarioId, DateTime fromUtc, DateTime toUtc, CancellationToken ct = default)
             => await _set.AsNoTracking().CountAsync(c => c.UsuarioId == usuarioId && c.Fecha >= fromUtc && c.Fecha <= toUtc, ct);
+
+        public async Task<int> CountConfirmedByBeneficioOnRangeAsync(Guid beneficioId, DateTime fromUtc, DateTime toUtc, CancellationToken ct = default)
+            => await _set.AsNoTracking()
+                         .CountAsync(c => c.BeneficioId == beneficioId && c.Estado == Domain.Enums.EstadoCanje.Confirmado && c.Fecha >= fromUtc && c.Fecha <= toUtc, ct);
+
+        public async Task<int> CountConfirmedByUsuarioAndBeneficioOnRangeAsync(Guid usuarioId, Guid beneficioId, DateTime fromUtc, DateTime toUtc, CancellationToken ct = default)
+            => await _set.AsNoTracking()
+                         .CountAsync(c => c.UsuarioId == usuarioId && c.BeneficioId == beneficioId && c.Estado == Domain.Enums.EstadoCanje.Confirmado && c.Fecha >= fromUtc && c.Fecha <= toUtc, ct);
     }
 }

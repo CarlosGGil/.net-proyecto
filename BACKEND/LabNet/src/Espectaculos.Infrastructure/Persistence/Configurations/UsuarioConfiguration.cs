@@ -16,24 +16,24 @@ namespace Espectaculos.Infrastructure.Persistence.Configurations
             builder.Property(u => u.Email).IsRequired().HasMaxLength(150);
             builder.Property(u => u.PasswordHash).IsRequired().HasMaxLength(150);
             
-            builder.HasMany(e => e.Canjes)
+            builder.HasMany(u => u.Canjes)
                 .WithOne(c => c.Usuario)
-                .HasForeignKey(e => e.CanjeId)
+                .HasForeignKey(c => c.UsuarioId)
                 .OnDelete(DeleteBehavior.Restrict);
             
-            builder.HasMany(e => e.Dispositivos)
-                .WithOne(c => c.Usuario)
-                .HasForeignKey(e => e.DispositivoId)
+            builder.HasMany(u => u.Dispositivos)
+                .WithOne(d => d.Usuario)
+                .HasForeignKey(d => d.UsuarioId)
                 .OnDelete(DeleteBehavior.Cascade);
             
-            builder.HasMany(e => e.Beneficios)
-                .WithOne(b => b.Usuario)
-                .HasForeignKey(b => b.BeneficioId)
+            builder.HasMany(u => u.Beneficios)
+                .WithOne(bu => bu.Usuario)
+                .HasForeignKey(bu => bu.UsuarioId)
                 .OnDelete(DeleteBehavior.Restrict);
             
-            builder.HasMany(e => e.UsuarioRoles)
-                .WithOne(b => b.Usuario)
-                .HasForeignKey(b => b.RolId)
+            builder.HasMany(u => u.UsuarioRoles)
+                .WithOne(ur => ur.Usuario)
+                .HasForeignKey(ur => ur.UsuarioId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
